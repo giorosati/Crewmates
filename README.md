@@ -4,7 +4,7 @@ Submitted by: Giovanni Rosati
 
 This web app: Web app for managing "Crewmates" with full CRUD functionality via Supabase database.
 
-Time spent: **X** hours spent in total
+Time spent: 8 hours spent in total
 
 ## Required Features
 
