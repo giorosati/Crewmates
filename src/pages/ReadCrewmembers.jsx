@@ -84,9 +84,9 @@ const ReadCrewmembers = (props) => {
                                 <td>{c.specialty ?? '-'}</td>
                                 <td>{formatDate(c.created_at)}</td>
                                 <td>
-                                    <Link to={`/crewmate/${c.id}`}><button style={{ marginRight: '6px' }}>View</button></Link>
-                                    <Link to={`/edit/${c.id}`}><button style={{ marginRight: '6px' }}>Edit</button></Link>
-                                    <button onClick={() => deleteCrewmember(c.id)}>Delete</button>
+                                    <Link to={`/crewmate/${c.id}`}><button className="btn btn-view">View</button></Link>
+                                    <Link to={`/edit/${c.id}`}><button className="btn btn-edit">Edit</button></Link>
+                                    <button className="btn btn-delete" onClick={() => deleteCrewmember(c.id)}>Delete</button>
                                 </td>
                             </tr>
                         ))}

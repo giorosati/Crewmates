@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import './EditCrewmember.css'
+import './ReadCrewmembers.css'
 import { supabase } from '../client'
 
 // Edit an existing crewmember by id. Loads the crewmember from Supabase, allows updating & deleting.
@@ -107,61 +108,67 @@ const EditCrewmember = () => {
     }
 
     return (
-        <div>
-            <h2>Edit Crewmember</h2>
-            {loading && <p>Loading...</p>}
-            {errorMsg && !loading && <p style={{ color: 'crimson' }}>{errorMsg}</p>}
-            {!loading && (
-                <form onSubmit={updateCrewmember}>
-                    <label htmlFor="name">Name</label><br />
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={crewmember.name}
-                        onChange={handleChange}
-                    /><br />
-                    <br />
-                    <label htmlFor="rank">Rank</label><br />
-                    <input
-                        type="text"
-                        id="rank"
-                        name="rank"
-                        value={crewmember.rank}
-                        onChange={handleChange}
-                    /><br />
-                    <br />
-                    <fieldset className="specialty-grid" style={{ border: 'none', padding: 0, margin: 0 }}>
-                        <legend style={{ fontSize: '18px', marginBottom: '8px' }}>Specialty</legend>
-                        {SPECIALTIES.map((s) => (
-                            <label key={s.value} className="specialty-option">
-                                <input
-                                    type="radio"
-                                    name="specialty"
-                                    value={s.value}
-                                    checked={crewmember.specialty === s.value}
-                                    onChange={handleChange}
-                                />
-                                {s.label}
-                            </label>
-                        ))}
-                    </fieldset>
+        <div className="ReadCrewmembers">
+            <div className="crewmembers-wrapper">
+                <div style={{ maxWidth: 900, width: '100%' }}>
+                    <h2>Edit Crewmember</h2>
+                    {loading && <p>Loading...</p>}
+                    {errorMsg && !loading && <p style={{ color: 'crimson' }}>{errorMsg}</p>}
+                    {!loading && (
+                        <form onSubmit={updateCrewmember} className="edit-form">
+                            <label htmlFor="name">Name</label><br />
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={crewmember.name}
+                                onChange={handleChange}
+                            /><br />
+                            <br />
+                            <label htmlFor="rank">Rank</label><br />
+                            <input
+                                type="text"
+                                id="rank"
+                                name="rank"
+                                value={crewmember.rank}
+                                onChange={handleChange}
+                            /><br />
+                            <br />
+                            <fieldset className="specialty-grid" style={{ border: 'none', padding: 0, margin: 0 }}>
+                                <legend style={{ fontSize: '18px', marginBottom: '8px' }}>Specialty</legend>
+                                {SPECIALTIES.map((s) => (
+                                    <label key={s.value} className="specialty-option">
+                                        <input
+                                            type="radio"
+                                            name="specialty"
+                                            value={s.value}
+                                            checked={crewmember.specialty === s.value}
+                                            onChange={handleChange}
+                                        />
+                                        {s.label}
+                                    </label>
+                                ))}
+                            </fieldset>
 
-                    <br />
-                    <label htmlFor="details">Details</label><br />
-                    <textarea
-                        rows="5"
-                        cols="50"
-                        id="details"
-                        name="details"
-                        value={crewmember.details}
-                        onChange={handleChange}
-                    />
-                    <br />
-                    <input type="submit" value="Save Crewmember" />
-                    <button type="button" className="deleteButton" onClick={deleteCrewmember} style={{ marginLeft: '8px' }}>Delete</button>
-                </form>
-            )}
+                            <br />
+                            <label htmlFor="details">Details</label><br />
+                            <textarea
+                                rows="5"
+                                cols="50"
+                                id="details"
+                                name="details"
+                                value={crewmember.details}
+                                onChange={handleChange}
+                            />
+                            <br />
+                            <div className="form-actions">
+                                <button type="submit" className="btn btn-edit">Save</button>
+                                <button type="button" className="btn btn-delete" onClick={deleteCrewmember}>Delete</button>
+                            </div>
+                        </form>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

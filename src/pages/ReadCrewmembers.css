@@ -1,17 +1,33 @@
 
 .ReadCrewmembers {
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center contents horizontally */
+}
+
+/* Prevent horizontal scrolling inside the ReadCrewmembers container */
+.ReadCrewmembers { overflow-x: hidden; }
+
+/* Ensure the Read page can occupy the full viewport height on small screens
+   so returning from the View page doesn't cause layout overflow. */
+.ReadCrewmembers {
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .crewmembers-wrapper {
-    display: flex;
-    justify-content: center;
+    display: block;
+    width: 100%;
+    max-width: 100%;
 }
 
 .crewmembers-table {
     width: 100%;
     max-width: 900px;
     border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .crewmembers-table th,
@@ -40,11 +56,205 @@
 
 /* Name link styling: lighter blue */
 .crewmembers-table td.cm-name a {
-    color: #4a90e2; /* lighter blue */
+    color: #4a90e2; /* lighter blue similar to View button */
     text-decoration: none;
+    font-weight: 700; /* make name bold */
 }
 
 .crewmembers-table td.cm-name a:hover {
     text-decoration: underline;
+}
+
+/* Remove underlines on anchor-wrapped buttons (the faint lines were from anchor text-decoration) */
+.crewmembers-table a,
+.ReadCrewmembers a {
+    text-decoration: none;
+}
+/* Reinstate underline for name links on hover only (more specific) */
+.crewmembers-table td.cm-name a:hover {
+    text-decoration: underline;
+}
+
+/* Also ensure anchors that wrap .btn don't produce underlines on some browsers */
+.crewmembers-table a .btn,
+.ReadCrewmembers a .btn {
+    text-decoration: none;
+}
+
+/* Buttons styling for actions */
+/* Buttons styling for actions - apply inside the Read page wrapper as well as the table */
+.crewmembers-table .btn,
+.ReadCrewmembers .btn {
+    margin-right: 8px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.crewmembers-table .btn-view,
+.ReadCrewmembers .btn-view { background-color: #007bff; }
+.crewmembers-table .btn-edit,
+.ReadCrewmembers .btn-edit { background-color: #28a745; }
+.crewmembers-table .btn-delete,
+.ReadCrewmembers .btn-delete { background-color: #ff0000; }
+
+.crewmembers-table .btn:focus,
+.ReadCrewmembers .btn:focus { outline: 2px solid rgba(0,0,0,0.1); }
+
+/* On touch devices (small screens) remove the focus outline which can appear
+   as a faint line at the bottom of the viewport when a button is focused. Keep
+   focus-visible for keyboard users intact on non-touch devices. */
+@media (hover: none) and (pointer: coarse) {
+    .crewmembers-table .btn:focus,
+    .ReadCrewmembers .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+}
+
+/* Extra defensive: on very small / touch devices remove any bottom borders or
+   shadows that might appear on the page container or focused controls which
+   can show as a faint gray line at the bottom of the viewport. */
+@media (max-width: 640px) and (hover: none) and (pointer: coarse) {
+    .ReadCrewmembers,
+    .crewmembers-wrapper,
+    .crewmembers-wrapper > div,
+    .ReadCrewmembers * {
+        border-bottom: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Remove focus outlines for touch-only devices (keep keyboard accessibility on desktop) */
+    .ReadCrewmembers *:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+}
+
+/* Make table responsive and avoid horizontal overflow on small screens */
+.crewmembers-wrapper {
+    box-sizing: border-box;
+    padding: 0 12px; /* ensure some horizontal padding but avoid overflow */
+    overflow-x: hidden; /* prevent horizontal scrollbar on all screen sizes */
+}
+.crewmembers-table {
+    width: 100%;
+}
+
+/* Small-screen adjustments so the Read page fits in the viewport and stacked buttons have spacing */
+@media (max-width: 640px) {
+    .ReadCrewmembers { padding: 12px; }
+    .crewmembers-table th,
+    .crewmembers-table td { padding: 8px 10px; }
+
+    /* When action buttons stack, make them full-width with vertical spacing */
+    .crewmembers-table td .btn,
+    .ReadCrewmembers .btn {
+        display: block;
+        width: 100%;
+        margin: 6px 0; /* vertical spacing between stacked buttons */
+        box-sizing: border-box;
+    }
+
+    /* Ensure links wrapping buttons don't add extra spacing or underlines */
+    .crewmembers-table td a,
+    .ReadCrewmembers a { text-decoration: none; }
+
+    /* Make action buttons consistent height and text size on small screens */
+    .crewmembers-table td .btn,
+    .ReadCrewmembers p > .btn,
+    .form-actions .btn {
+        height: 44px;
+        font-size: inherit;
+        padding: 0 12px;
+    }
+
+
+/* Tighter breakpoint for extra-small screens (e.g., 390x844) */
+@media (max-width: 400px) {
+    .crewmembers-table th,
+    .crewmembers-table td { padding: 6px 8px; }
+
+    /* Remove any inline margins on buttons (View page had inline marginRight) */
+    .ReadCrewmembers .btn { margin-right: 0 !important; }
+}
+
+/* Ensure table cell content wraps instead of forcing extra width */
+.crewmembers-table td, .crewmembers-table th {
+    white-space: normal;
+    word-break: break-word;
+}
+/* Ensure name link wraps and doesn't cause horizontal overflow */
+.crewmembers-table td.cm-name a { word-break: break-word; }
+
+/* Extra-small screens: show only Name, Rank and Actions columns */
+@media (max-width: 420px) {
+    .crewmembers-wrapper { padding: 0 8px; }
+
+    /* Hide Specialty (3) and Created (4) columns */
+    .crewmembers-table thead th:nth-child(3),
+    .crewmembers-table tbody td:nth-child(3),
+    .crewmembers-table thead th:nth-child(4),
+    .crewmembers-table tbody td:nth-child(4) {
+        display: none;
+    }
+
+    /* Use fixed table layout to make truncation predictable */
+    .crewmembers-table { table-layout: fixed; }
+
+    /* Allocate widths for Name, Rank, Actions (visible columns)
+       Make Actions wider so its header and buttons won't be truncated,
+       then split remaining space equally between Name and Rank. */
+    .crewmembers-table thead th:nth-child(5),
+    .crewmembers-table tbody td:nth-child(5) {
+        width: 36%;
+    }
+    .crewmembers-table thead th:nth-child(1),
+    .crewmembers-table tbody td:nth-child(1),
+    .crewmembers-table thead th:nth-child(2),
+    .crewmembers-table tbody td:nth-child(2) {
+        width: 32%;
+    }
+
+    /* Prevent header text wrapping, but keep Actions column content visible */
+    .crewmembers-table th,
+    .crewmembers-table th * {
+        white-space: nowrap;
+    }
+    /* For Actions column, ensure header and cell content are not truncated
+       and buttons size to their content (inline) */
+    .crewmembers-table thead th:nth-child(5),
+    .crewmembers-table tbody td:nth-child(5) {
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+    }
+    /* Keep action buttons stacked (full-width) on extra-small screens */
+    .crewmembers-table tbody td:nth-child(5) .btn {
+        display: block;
+        width: 100%;
+        margin: 6px 0; /* vertical spacing between stacked buttons */
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    /* Truncate cell contents with ellipsis */
+    .crewmembers-table td,
+    .crewmembers-table th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .crewmembers-table td.cm-name a {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 

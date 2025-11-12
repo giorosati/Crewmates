@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './CreateCrewmember.css'
+import './ReadCrewmembers.css'
 import { supabase } from '../client'
 
 const CreateCrewmember = () => {
@@ -59,10 +60,12 @@ const CreateCrewmember = () => {
     }
 
     return (
-        <div>
-            <h2>Add Crewmember</h2>
-            {errorMsg && <div className="form-error" role="alert" style={{color: 'crimson', marginBottom: '12px'}}>{errorMsg}</div>}
-            <form onSubmit={createCrewmember}>
+        <div className="ReadCrewmembers">
+            <div className="crewmembers-wrapper">
+                <div style={{ maxWidth: 900, width: '100%' }}>
+                    <h2>Add Crewmember</h2>
+                    {errorMsg && <div className="form-error" role="alert" style={{color: 'crimson', marginBottom: '12px'}}>{errorMsg}</div>}
+                    <form onSubmit={createCrewmember} className="create-form">
                 <label htmlFor="name">Name</label> <br />
                 <input
                     type="text"
@@ -111,8 +114,10 @@ const CreateCrewmember = () => {
                     onChange={handleChange}
                 />
                 <br/>
-                <input type="submit" value="Add Crewmember" />
-            </form>
+                <button type="submit" className="btn btn-view">Add Crewmember</button>
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }

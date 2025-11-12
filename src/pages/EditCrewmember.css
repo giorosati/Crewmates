@@ -1,22 +1,30 @@
-input {
+
+/* Form controls inherit font-size from page container (.ReadCrewmembers sets 14px)
+   Use more specific selectors so radio inputs are not enlarged by the generic input rules. */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"] {
     margin-top: 10px;
     width: 100%;
     height: 45px;
     border-radius: 8px;
     border: 1px solid transparent;
-    font-size: 20px;
+    font-size: inherit;
     padding-left: 10px;
 }
 
 label {
-    font-size: 20px;
+    font-size: inherit;
 }
 
 textarea {
     border-radius: 8px;
     width: 100%;
     border: 1px solid transparent;
-    font-size: 20px;
+    font-size: inherit;
     font-family: inherit;
 }
 
@@ -26,7 +34,7 @@ input[type=submit] {
     cursor: pointer;
     border-radius: 8px;
     border: 1px solid transparent;
-    font-size: 20px;
+    font-size: inherit;
     font-weight: 500;
     font-family: inherit;
     background-color: #1a1a1a;
@@ -40,13 +48,14 @@ input[type=submit]:hover {
     border-color: #646cff;
 }
 
+/* delete uses shared .btn styles, ensure fallback looks reasonable */
 .deleteButton {
     width: 100%;
     height: 50px;
     cursor: pointer;
     border-radius: 8px;
     border: 1px solid transparent;
-    font-size: 20px;
+    font-size: inherit;
     font-weight: 500;
     font-family: inherit;
     background-color: #870404;
@@ -62,10 +71,105 @@ input[type=submit]:hover {
     grid-template-columns: repeat(2, 1fr);
     gap: 6px 12px;
     max-width: 420px;
+    /* Left-justify items in both columns */
+    justify-items: start;
 }
 .specialty-option {
-    font-size: 14px;
+    /* match page font size */
+    font-size: inherit;
     display: flex;
     align-items: center;
     gap: 8px;
+    justify-self: start;
+}
+
+/* Radios: small, aligned, and use accent-color for modern browsers */
+input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #646cff; /* matches primary/hover color */
+}
+
+/* Responsive: single column on narrow screens */
+@media (max-width: 640px) {
+    .specialty-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Form actions: place Save and Delete in one row with equal size and matching text size/style */
+.form-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+.form-actions .btn {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px; /* match Create/Edit submit size */
+    padding: 0 12px;
+    font-size: inherit; /* match page font size */
+}
+
+/* On very small screens, stack the buttons vertically */
+@media (max-width: 420px) {
+    .form-actions { flex-direction: column; }
+}
+
+/* Ensure stacked form action buttons are full-width and match View button sizing on small screens */
+@media (max-width: 640px) {
+    .form-actions .btn {
+        width: 100%;
+        display: block;
+        margin: 6px 0;
+        height: 44px; /* same small-screen button height used on Read/View */
+        font-size: inherit;
+    }
+}
+
+/* Large-screen layout to mirror View page proportions */
+@media (min-width: 1024px) {
+    .edit-form {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 16px;
+        box-sizing: border-box;
+    }
+
+    .edit-form label,
+    .edit-form legend {
+        font-size: inherit;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .edit-form input[type="text"],
+    .edit-form textarea {
+        width: 100%;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-size: inherit;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+    }
+
+    .edit-form textarea {
+        min-height: 160px;
+        line-height: 1.5;
+    }
+
+    .edit-form .specialty-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px 18px;
+        max-width: 100%;
+    }
+
+    .edit-form .specialty-option {
+        font-size: inherit;
+    }
 }

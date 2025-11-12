@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../client'
+import './ReadCrewmembers.css'
 
 const ViewCrewmember = () => {
     const { id } = useParams()
@@ -39,17 +40,21 @@ const ViewCrewmember = () => {
     if (!crewmember) return <p>No crewmember found.</p>
 
     return (
-        <div>
-            <h2>{crewmember.name}</h2>
-            <p><strong>Rank:</strong> {crewmember.rank}</p>
-            <p><strong>Specialty:</strong> {crewmember.specialty ?? '-'}</p>
-            <p><strong>Details:</strong></p>
-            <p>{crewmember.details}</p>
-            <p><strong>Created:</strong> {formatDate(crewmember.created_at)}</p>
-            <p>
-                <Link to={`/edit/${crewmember.id}`}><button style={{ marginRight: '8px' }}>Edit</button></Link>
-                <Link to="/"><button>Back</button></Link>
-            </p>
+        <div className="ReadCrewmembers">
+            <div className="crewmembers-wrapper">
+                <div style={{ maxWidth: 900, width: '100%' }}>
+                    <h2>{crewmember.name}</h2>
+                    <p><strong>Rank:</strong> {crewmember.rank}</p>
+                    <p><strong>Specialty:</strong> {crewmember.specialty ?? '-'}</p>
+                    <p><strong>Details:</strong></p>
+                    <p>{crewmember.details}</p>
+                    <p><strong>Created:</strong> {formatDate(crewmember.created_at)}</p>
+                    <p>
+                        <Link to={`/edit/${crewmember.id}`}><button className="btn btn-edit">Edit</button></Link>
+                        <Link to="/"><button className="btn btn-view">Back</button></Link>
+                    </p>
+                </div>
+            </div>
         </div>
     )
 }
