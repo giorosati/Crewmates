@@ -49,9 +49,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+https://imgur.com/a/Ey4MlUM
 
-<!-- Replace this with whatever GIF tool you used! -->
 GIF created with ScreenToGif (https://www.screentogif.com/) for Windows
 
 ## Notes
