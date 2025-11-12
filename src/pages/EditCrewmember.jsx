@@ -1,32 +1,32 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import './EditPost.css'
+import './EditCrewmember.css'
 import { supabase } from '../client'
 
-// Edit an existing post by id. Loads the post from Supabase, allows updating & deleting.
-const EditPost = () => {
+// Edit an existing crewmember by id. Loads the crewmember from Supabase, allows updating & deleting.
+const EditCrewmember = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const [post, setPost] = useState({ id: null, title: '', author: '', description: '' })
+    const [crewmember, setCrewmember] = useState({ id: null, name: '', rank: '', details: '' })
     const [loading, setLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState(null)
     const numericId = isNaN(Number(id)) ? id : Number(id)
 
-    // Load existing post from Supabase
+    // Load existing crewmember from Supabase
     useEffect(() => {
         let ignore = false
         ;(async () => {
             setLoading(true)
             setErrorMsg(null)
             const { data, error } = await supabase
-                .from('Posts')
+                .from('crewmates')
                 .select('*')
                 .eq('id', numericId)
                 .single()
             if (error) {
-                if (!ignore) setErrorMsg('Failed to load post.')
+                if (!ignore) setErrorMsg('Failed to load crewmember.')
             } else if (data && !ignore) {
-                setPost({ id: data.id, title: data.title ?? '', author: data.author ?? '', description: data.description ?? '' })
+                setCrewmember({ id: data.id, name: data.name ?? '', rank: data.rank ?? '', details: data.details ?? '' })
             }
             if (!ignore) setLoading(false)
         })()
@@ -35,95 +35,95 @@ const EditPost = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        setPost(prev => ({ ...prev, [name]: value }))
+        setCrewmember(prev => ({ ...prev, [name]: value }))
     }
 
-    const updatePost = async (event) => {
+    const updateCrewmember = async (event) => {
         event.preventDefault()
         setErrorMsg(null)
         try {
             const { error } = await supabase
-                .from('Posts')
-                .update({ title: post.title, author: post.author, description: post.description })
+                .from('crewmates')
+                .update({ name: crewmember.name, rank: crewmember.rank, details: crewmember.details })
                 .eq('id', numericId)
             if (error) {
                 // eslint-disable-next-line no-console
                 console.error('Update error', error)
-                setErrorMsg('Failed to update post. Please try again.')
+                    setErrorMsg('Failed to update crewmember. Please try again.')
                 return
             }
             navigate('/')
         } catch (err) {
             // eslint-disable-next-line no-console
             console.error('Unexpected update error', err)
-            setErrorMsg('Unexpected error updating post.')
+            setErrorMsg('Unexpected error updating crewmember.')
         }
     }
 
-    const deletePost = async (event) => {
+    const deleteCrewmember = async (event) => {
         event.preventDefault()
-        if (!window.confirm('Delete this post? This cannot be undone.')) return
+        if (!window.confirm('Delete this crewmember? This cannot be undone.')) return
         setErrorMsg(null)
         try {
             const { error } = await supabase
-                .from('Posts')
+                .from('crewmates')
                 .delete()
                 .eq('id', numericId)
             if (error) {
                 // eslint-disable-next-line no-console
                 console.error('Delete error', error)
-                setErrorMsg('Failed to delete post.')
+                setErrorMsg('Failed to delete crewmember.')
                 return
             }
             navigate('/')
         } catch (err) {
             // eslint-disable-next-line no-console
             console.error('Unexpected delete error', err)
-            setErrorMsg('Unexpected error deleting post.')
+            setErrorMsg('Unexpected error deleting crewmember.')
         }
     }
 
     return (
         <div>
-            <h2>Edit Post</h2>
+            <h2>Edit Crewmember</h2>
             {loading && <p>Loading...</p>}
             {errorMsg && !loading && <p style={{ color: 'crimson' }}>{errorMsg}</p>}
             {!loading && (
-                <form onSubmit={updatePost}>
-                    <label htmlFor="title">Title</label><br />
+                <form onSubmit={updateCrewmember}>
+                    <label htmlFor="name">Name</label><br />
                     <input
                         type="text"
-                        id="title"
-                        name="title"
-                        value={post.title}
+                        id="name"
+                        name="name"
+                        value={crewmember.name}
                         onChange={handleChange}
                     /><br />
                     <br />
-                    <label htmlFor="author">Author</label><br />
+                    <label htmlFor="rank">Rank</label><br />
                     <input
                         type="text"
-                        id="author"
-                        name="author"
-                        value={post.author}
+                        id="rank"
+                        name="rank"
+                        value={crewmember.rank}
                         onChange={handleChange}
                     /><br />
                     <br />
-                    <label htmlFor="description">Description</label><br />
+                    <label htmlFor="details">Details</label><br />
                     <textarea
                         rows="5"
                         cols="50"
-                        id="description"
-                        name="description"
-                        value={post.description}
+                        id="details"
+                        name="details"
+                        value={crewmember.details}
                         onChange={handleChange}
                     />
                     <br />
-                    <input type="submit" value="Save Changes" />
-                    <button type="button" className="deleteButton" onClick={deletePost} style={{ marginLeft: '8px' }}>Delete</button>
+                    <input type="submit" value="Save Crewmember" />
+                    <button type="button" className="deleteButton" onClick={deleteCrewmember} style={{ marginLeft: '8px' }}>Delete</button>
                 </form>
             )}
         </div>
     )
 }
 
-export default EditPost
+export default EditCrewmember

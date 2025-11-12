@@ -1,4 +1,4 @@
-.ReadPosts {
+.ReadCrewmembers {
     display: grid;
     grid-auto-flow: row;
     grid-template-columns: repeat(2, 1fr);

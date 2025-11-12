@@ -19,13 +19,7 @@
   color:white;
   text-align: center;
 }
-
-.headerBtn {
-  margin-bottom: 50px;
-  margin-right: 10px;
-}
-
-.ReadPosts {
+.ReadCrewmembers {
   display: grid;
   grid-auto-flow: row;
   grid-template-columns: repeat(2, 1fr);
