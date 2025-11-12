@@ -4,7 +4,21 @@ import { supabase } from '../client'
 
 const CreateCrewmember = () => {
 
-    const [crewmember, setCrewmember] = useState({name: "", rank: "", details: ""})
+    const SPECIALTIES = [
+        { value: 'construction', label: 'Construction' },
+        { value: 'engineering', label: 'Engineering' },
+        { value: 'entertainmemt', label: 'Entertainment' },
+        { value: 'farming', label: 'Farming' },
+        { value: 'food preparation', label: 'Food Preparation' },
+        { value: 'health care', label: 'Health Care' },
+        { value: 'hunting', label: 'Hunting' },
+        { value: 'maintenance', label: 'Maintenance' },
+        { value: 'planning', label: 'Planning' },
+        { value: 'research', label: 'Research' },
+        { value: 'writing', label: 'Writing' },
+    ];
+
+    const [crewmember, setCrewmember] = useState({name: "", rank: "", details: "", specialty: ""})
     const [errorMsg, setErrorMsg] = useState(null)
 
     const handleChange = (event) => {
@@ -17,10 +31,19 @@ const CreateCrewmember = () => {
     const createCrewmember = async (event) => {
         event.preventDefault()
         setErrorMsg(null)
-        try {
+        // Basic client-side validation
+        if (!crewmember.name.trim()) {
+            setErrorMsg('Name is required.')
+            return
+        }
+        if (!crewmember.specialty) {
+            setErrorMsg('Please choose a specialty.')
+            return
+        }
+            try {
             const { error } = await supabase
                 .from('crewmates')
-                .insert({name: crewmember.name, rank: crewmember.rank, details: crewmember.details})
+                .insert({name: crewmember.name, rank: crewmember.rank, details: crewmember.details, specialty: crewmember.specialty})
             if (error) {
                 // eslint-disable-next-line no-console
                 console.error('Supabase insert error', error)
@@ -58,6 +81,24 @@ const CreateCrewmember = () => {
                     value={crewmember.rank}
                     onChange={handleChange}
                 /><br />
+                <br/>
+
+                <fieldset className="specialty-grid" style={{ border: 'none', padding: 0, margin: 0 }}>
+                    <legend style={{ fontSize: '18px', marginBottom: '8px' }}>Specialty</legend>
+                    {SPECIALTIES.map((s) => (
+                        <label key={s.value} className="specialty-option">
+                            <input
+                                type="radio"
+                                name="specialty"
+                                value={s.value}
+                                checked={crewmember.specialty === s.value}
+                                onChange={handleChange}
+                            />
+                            {s.label}
+                        </label>
+                    ))}
+                </fieldset>
+
                 <br/>
 
                 <label htmlFor="details">Details</label><br />

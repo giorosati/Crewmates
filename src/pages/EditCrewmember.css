@@ -56,3 +56,16 @@ input[type=submit]:hover {
     margin-top: 20px;
     margin-bottom: 50px;
 }
+
+.specialty-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 12px;
+    max-width: 420px;
+}
+.specialty-option {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

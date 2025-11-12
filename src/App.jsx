@@ -4,6 +4,7 @@ import { useRoutes } from 'react-router-dom'
 import ReadCrewmembers from './pages/ReadCrewmembers'
 import CreateCrewmember from './pages/CreateCrewmember'
 import EditCrewmember from './pages/EditCrewmember'
+import ViewCrewmember from './pages/ViewCrewmember'
 import { Link } from 'react-router-dom'
 
 
@@ -30,6 +31,18 @@ const App = () => {
       path:"/edit/:id",
       element: <EditCrewmember />
     },
+      {
+        path: "/view/:id",
+        element: <ViewCrewmember />
+      },
+      {
+        path: "/crewmate/:id",
+        element: <ViewCrewmember />
+      },
+      {
+        path: "/crewmates/:id",
+        element: <ViewCrewmember />
+      },
     {
       path:"/new",
       element: <CreateCrewmember />
@@ -41,8 +54,8 @@ const App = () => {
     <div className="App">
 
       <div className="header">
-        <h1>Crewmates</h1>
-        <Link to="/"><button className="headerBtn"> Explore Crewmembers 🔍  </button></Link>
+        <h1>Crewmembers</h1>
+        <Link to="/"><button className="headerBtn"> List Crewmembers 🔍  </button></Link>
         <Link to="/new"><button className="headerBtn"> Add Crewmember ➕ </button></Link>
       </div>
         {element}

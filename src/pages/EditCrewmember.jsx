@@ -7,7 +7,21 @@ import { supabase } from '../client'
 const EditCrewmember = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const [crewmember, setCrewmember] = useState({ id: null, name: '', rank: '', details: '' })
+    const SPECIALTIES = [
+        { value: 'construction', label: 'Construction' },
+        { value: 'engineering', label: 'Engineering' },
+        { value: 'entertainmemt', label: 'Entertainment' },
+        { value: 'farming', label: 'Farming' },
+        { value: 'food preparation', label: 'Food Preparation' },
+        { value: 'health care', label: 'Health Care' },
+        { value: 'hunting', label: 'Hunting' },
+        { value: 'maintenance', label: 'Maintenance' },
+        { value: 'planning', label: 'Planning' },
+        { value: 'research', label: 'Research' },
+        { value: 'writing', label: 'Writing' },
+    ];
+
+    const [crewmember, setCrewmember] = useState({ id: null, name: '', rank: '', details: '', specialty: '' })
     const [loading, setLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState(null)
     const numericId = isNaN(Number(id)) ? id : Number(id)
@@ -26,7 +40,7 @@ const EditCrewmember = () => {
             if (error) {
                 if (!ignore) setErrorMsg('Failed to load crewmember.')
             } else if (data && !ignore) {
-                setCrewmember({ id: data.id, name: data.name ?? '', rank: data.rank ?? '', details: data.details ?? '' })
+                setCrewmember({ id: data.id, name: data.name ?? '', rank: data.rank ?? '', details: data.details ?? '', specialty: data.specialty ?? '' })
             }
             if (!ignore) setLoading(false)
         })()
@@ -41,10 +55,19 @@ const EditCrewmember = () => {
     const updateCrewmember = async (event) => {
         event.preventDefault()
         setErrorMsg(null)
+        // Basic client-side validation
+        if (!crewmember.name.trim()) {
+            setErrorMsg('Name is required.')
+            return
+        }
+        if (!crewmember.specialty) {
+            setErrorMsg('Please choose a specialty.')
+            return
+        }
         try {
             const { error } = await supabase
                 .from('crewmates')
-                .update({ name: crewmember.name, rank: crewmember.rank, details: crewmember.details })
+                .update({ name: crewmember.name, rank: crewmember.rank, details: crewmember.details, specialty: crewmember.specialty })
                 .eq('id', numericId)
             if (error) {
                 // eslint-disable-next-line no-console
@@ -107,6 +130,23 @@ const EditCrewmember = () => {
                         value={crewmember.rank}
                         onChange={handleChange}
                     /><br />
+                    <br />
+                    <fieldset className="specialty-grid" style={{ border: 'none', padding: 0, margin: 0 }}>
+                        <legend style={{ fontSize: '18px', marginBottom: '8px' }}>Specialty</legend>
+                        {SPECIALTIES.map((s) => (
+                            <label key={s.value} className="specialty-option">
+                                <input
+                                    type="radio"
+                                    name="specialty"
+                                    value={s.value}
+                                    checked={crewmember.specialty === s.value}
+                                    onChange={handleChange}
+                                />
+                                {s.label}
+                            </label>
+                        ))}
+                    </fieldset>
+
                     <br />
                     <label htmlFor="details">Details</label><br />
                     <textarea

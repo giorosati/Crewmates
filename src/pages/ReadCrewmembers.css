@@ -1,7 +1,50 @@
+
 .ReadCrewmembers {
-    display: grid;
-    grid-auto-flow: row;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    padding: 16px;
+}
+
+.crewmembers-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.crewmembers-table {
+    width: 100%;
+    max-width: 900px;
+    border-collapse: collapse;
+}
+
+.crewmembers-table th,
+.crewmembers-table td {
+    padding: 12px 20px; /* increase horizontal spacing between columns */
+    border-bottom: 1px solid #ddd;
+}
+
+.crewmembers-table th {
+    padding: 12px 20px; /* match header padding */
+    border-bottom: 1px solid #ddd;
+}
+
+.crewmembers-table th {
+    text-align: left;
+}
+
+.no-crewmembers {
+    text-align: center;
+}
+
+/* Reduce overall font-size for the ReadCrewmembers page (does not affect header buttons outside this scope) */
+.ReadCrewmembers {
+    font-size: 14px; /* decreased from default 16px */
+}
+
+/* Name link styling: lighter blue */
+.crewmembers-table td.cm-name a {
+    color: #4a90e2; /* lighter blue */
+    text-decoration: none;
+}
+
+.crewmembers-table td.cm-name a:hover {
+    text-decoration: underline;
 }
 
